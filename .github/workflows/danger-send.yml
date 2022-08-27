@@ -1,10 +1,10 @@
 on:
   workflow_run:
-    workflows: [Danger Check (Generate)]
+    workflows: [Danger (Generate)]
     types:
       - completed
 
-name: Danger Check (Send)
+name: Danger (Send)
 
 jobs:
   send:

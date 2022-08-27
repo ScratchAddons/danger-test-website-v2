@@ -9,7 +9,7 @@ on:
       - synchronize
       - ready_for_review
 
-name: Danger Check (Generate)
+name: Danger (Generate)
 
 concurrency: 
   group: danger-generate-${{ github.event.number }}
