@@ -1,10 +1,10 @@
 on:
   workflow_run:
-    workflows: [Danger JS Check (Generate)]
+    workflows: [Danger Check (Generate)]
     types:
       - completed
 
-name: Danger JS Check (Send)
+name: Danger Check (Send)
 
 jobs:
   send:
@@ -18,12 +18,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+      # - name: Cache dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: ${{ runner.os }}-node-
 
       - name: Download artifact
         uses: actions/github-script@v6
@@ -48,6 +48,12 @@ jobs:
       - name: Unzip artifact
         run: unzip to-send.zip
 
+      - name: Generate token 
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Execute script
         run: | 
           export PR_NUMBER=$(cat pr-number)
@@ -56,14 +62,6 @@ jobs:
           rm -rf pr-number
           npx danger ci
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           DANGER_FAKE_CI: YEP
-          DANGER_TEST_REPO: ScratchAddons/website-v2-danger-test
-
-      - name: Upload for sending
-        uses: actions/upload-artifact@v3
-        with:
-          name: to-send
-          path: |
-            dangerfile.js
-            pr-number
+          DANGER_TEST_REPO: ${{ GITHUB_REPOSITORY }}
