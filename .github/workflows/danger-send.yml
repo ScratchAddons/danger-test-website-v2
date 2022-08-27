@@ -54,7 +54,7 @@ jobs:
           rm -rf to-send.zip
           rm -rf pr-number
           echo $PR_NUMBER
-          DANGER_TEST_PR='$PR_NUMBER' yarn danger ci
+          DANGER_TEST_PR='$PR_NUMBER' npx danger ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DANGER_FAKE_CI: YEP
