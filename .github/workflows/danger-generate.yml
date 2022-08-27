@@ -1,10 +1,7 @@
 on: 
-  workflow_dispatch:
-    inputs:
-      ref:
-        description: Reference on ScratchAddons/ScratchAddons
-        required: false
-        default: master
+  pull_request:
+    branches:
+      - master
 
 name: Danger JS Check (Generate)
 
