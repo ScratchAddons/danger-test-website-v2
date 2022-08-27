@@ -64,4 +64,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           DANGER_FAKE_CI: YEP
-          DANGER_TEST_REPO: ${{ env.GITHUB_REPOSITORY }}
+          DANGER_TEST_REPO: ${{ github.repository }}
