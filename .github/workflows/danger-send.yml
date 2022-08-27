@@ -61,7 +61,7 @@ jobs:
           export DANGER_TEST_PR=$PR_NUMBER
           rm -rf to-send.zip
           rm -rf pr-number
-          npx danger ci
+          npx danger ci --removePreviousComments
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           DANGER_FAKE_CI: YEP
