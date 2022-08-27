@@ -39,3 +39,12 @@ jobs:
           bash ../script/sh/danger-generate.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: Upload for sending
+        uses: actions/upload-artifact@v3
+        with:
+          name: to-send
+          path: |
+            dangerfile.js
+            pr-number
