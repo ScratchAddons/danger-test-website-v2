@@ -49,20 +49,22 @@ jobs:
       - name: Unzip artifact
         run: unzip to-send.zip
 
-      - name: Generate token 
-        uses: tibdex/github-app-token@v1
-        id: generate-token
-        with:
-          app_id: ${{ secrets.BOT_APP_ID }}
-          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
+      # - name: Generate token 
+      #   uses: tibdex/github-app-token@v1
+      #   id: generate-token
+      #   with:
+      #     app_id: ${{ secrets.BOT_APP_ID }}
+      #     private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Execute script
         run: | 
           export PR_NUMBER=$(cat pr-number)
           export DANGER_TEST_PR=$PR_NUMBER
           rm -rf to-send.zip
           rm -rf pr-number
-          npx danger ci --removePreviousComments
+          npx danger ci
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           DANGER_FAKE_CI: YEP
           DANGER_TEST_REPO: ${{ github.repository }}
