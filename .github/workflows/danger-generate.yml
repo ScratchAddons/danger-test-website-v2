@@ -2,8 +2,18 @@ on:
   pull_request:
     branches:
       - master
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - ready_for_review
 
 name: Danger Check (Generate)
+
+concurrency: 
+  group: danger-generate-${{ github.event.number }}
+  cancel-in-progress: true
 
 jobs:
   generate:
